@@ -1,0 +1,1086 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Portfolio — Business Operations & Cross-Functional Alignment</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600;700&family=DM+Sans:wght@300;400;500&family=Noto+Sans+JP:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --navy: #0d1b35;
+    --navy-mid: #162c56;
+    --gold: #d4893a;
+    --gold-light: #e8a85e;
+    --gold-pale: #f7e8d4;
+    --white: #fdf9f4;
+    --off: #f5ede0;
+    --gray: #6e6560;
+    --text: #1e1a16;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: 'DM Sans', 'Noto Sans JP', sans-serif;
+    background: var(--white);
+    color: var(--text);
+    overflow-x: hidden;
+  }
+
+  /* ── LANG TOGGLE ── */
+  .lang-bar {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    z-index: 100;
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    padding: 14px 32px;
+    background: rgba(13,27,53,0.92);
+    backdrop-filter: blur(8px);
+  }
+
+  .lang-btn {
+    background: none;
+    border: 1px solid rgba(212,137,58,0.5);
+    color: var(--gold-light);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 12px;
+    letter-spacing: 0.15em;
+    padding: 6px 18px;
+    cursor: pointer;
+    border-radius: 1px;
+    transition: all 0.25s;
+  }
+  .lang-btn:hover, .lang-btn.active {
+    background: var(--gold);
+    color: var(--navy);
+    border-color: var(--gold);
+  }
+  .lang-btn + .lang-btn { margin-left: 8px; }
+
+  /* ── HERO ── */
+  .hero {
+    min-height: 100vh;
+    background: var(--navy);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-start;
+    padding: 120px 8% 80px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .hero::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background:
+      radial-gradient(ellipse 70% 60% at 90% 50%, rgba(212,137,58,0.13) 0%, transparent 60%),
+      radial-gradient(ellipse 50% 50% at 10% 80%, rgba(22,44,86,0.6) 0%, transparent 50%);
+  }
+
+  .hero-eyebrow {
+    font-size: 11px;
+    letter-spacing: 0.4em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 28px;
+    opacity: 0;
+    animation: fadeUp 1s ease forwards 0.3s;
+  }
+
+  .hero h1 {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(40px, 7vw, 88px);
+    font-weight: 700;
+    color: var(--white);
+    line-height: 1.08;
+    letter-spacing: -0.02em;
+    max-width: 780px;
+    margin-bottom: 32px;
+    opacity: 0;
+    animation: fadeUp 1s ease forwards 0.5s;
+  }
+
+  .hero h1 em {
+    font-style: normal;
+    color: var(--gold-light);
+  }
+
+  .hero-desc {
+    font-size: clamp(15px, 1.6vw, 18px);
+    color: rgba(250,248,244,0.65);
+    line-height: 1.8;
+    max-width: 560px;
+    font-weight: 300;
+    margin-bottom: 48px;
+    opacity: 0;
+    animation: fadeUp 1s ease forwards 0.7s;
+  }
+
+  .hero-stats {
+    display: flex;
+    gap: 48px;
+    flex-wrap: wrap;
+    opacity: 0;
+    animation: fadeUp 1s ease forwards 0.9s;
+  }
+
+  .stat {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+  }
+
+  .stat-num {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 36px;
+    font-weight: 700;
+    color: var(--gold-light);
+    line-height: 1;
+  }
+
+  .stat-label {
+    font-size: 11px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: rgba(250,248,244,0.45);
+  }
+
+  .scroll-hint {
+    position: absolute;
+    bottom: 32px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+    color: rgba(200,164,90,0.5);
+    font-size: 10px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    opacity: 0;
+    animation: fadeUp 1s ease forwards 1.2s;
+  }
+
+  .scroll-line {
+    width: 1px;
+    height: 40px;
+    background: linear-gradient(to bottom, var(--gold), transparent);
+    animation: scrollDown 1.8s ease-in-out infinite;
+  }
+
+  @keyframes scrollDown {
+    0%, 100% { transform: scaleY(1); opacity: 0.5; }
+    50% { transform: scaleY(1.3); opacity: 1; }
+  }
+
+  /* ── SECTION BASE ── */
+  .section {
+    padding: 100px 8%;
+  }
+
+  .section-inner {
+    max-width: 960px;
+    margin: 0 auto;
+  }
+
+  .eyebrow {
+    font-size: 10px;
+    letter-spacing: 0.4em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 16px;
+    display: block;
+  }
+
+  .section-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(30px, 4vw, 50px);
+    font-weight: 600;
+    color: var(--navy);
+    line-height: 1.15;
+    margin-bottom: 60px;
+  }
+
+  /* ── EXPERTISE CARDS ── */
+  .expertise-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 2px;
+    background: #e8d8c8;
+  }
+
+  @media (max-width: 700px) {
+    .expertise-grid { grid-template-columns: 1fr; }
+  }
+
+  .exp-card {
+    background: var(--white);
+    padding: 44px 40px;
+    transition: background 0.3s;
+    cursor: default;
+  }
+
+  .exp-card:hover { background: var(--off); }
+
+  .exp-num {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 56px;
+    font-weight: 700;
+    color: var(--gold-pale);
+    line-height: 1;
+    margin-bottom: 16px;
+    display: block;
+  }
+
+  .exp-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 22px;
+    font-weight: 600;
+    color: var(--navy);
+    margin-bottom: 20px;
+    line-height: 1.2;
+  }
+
+  .exp-body {
+    font-size: 14px;
+    line-height: 1.85;
+    color: var(--gray);
+    font-weight: 300;
+    margin-bottom: 24px;
+  }
+
+  .exp-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+
+  .tag {
+    font-size: 11px;
+    letter-spacing: 0.08em;
+    padding: 4px 12px;
+    border: 1px solid rgba(212,137,58,0.45);
+    color: var(--gold);
+    border-radius: 1px;
+  }
+
+  /* ── APPROACH (dark) ── */
+  .approach-section {
+    background: var(--navy);
+    padding: 100px 8%;
+  }
+
+  .approach-section .section-title { color: var(--white); }
+
+  .approach-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 60px;
+    align-items: start;
+  }
+
+  @media (max-width: 700px) {
+    .approach-grid { grid-template-columns: 1fr; gap: 40px; }
+  }
+
+  .approach-text {
+    font-size: 16px;
+    line-height: 2;
+    color: rgba(250,248,244,0.75);
+    font-weight: 300;
+    margin-bottom: 40px;
+  }
+
+  .approach-text strong {
+    color: var(--gold-light);
+    font-weight: 500;
+  }
+
+  .pillars {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+  }
+
+  .pillars li {
+    display: flex;
+    gap: 16px;
+    align-items: flex-start;
+  }
+
+  .pillar-num {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 20px;
+    color: var(--gold);
+    font-weight: 700;
+    flex-shrink: 0;
+    width: 28px;
+  }
+
+  .pillar-text {
+    font-size: 15px;
+    color: rgba(250,248,244,0.8);
+    line-height: 1.6;
+    font-weight: 300;
+  }
+
+  .strength-panel {
+    background: rgba(212,137,58,0.1);
+    border: 1px solid rgba(212,137,58,0.25);
+    border-left: 3px solid var(--gold);
+    padding: 40px;
+    border-radius: 0 2px 2px 0;
+  }
+
+  .strength-panel h3 {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 22px;
+    color: var(--gold-light);
+    margin-bottom: 20px;
+    font-weight: 600;
+  }
+
+  .strength-panel p {
+    font-size: 15px;
+    line-height: 1.9;
+    color: rgba(250,248,244,0.75);
+    font-weight: 300;
+  }
+
+  /* ── SCOPE ── */
+  .scope-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 24px;
+  }
+
+  @media (max-width: 600px) {
+    .scope-grid { grid-template-columns: 1fr; }
+  }
+
+  .scope-card {
+    padding: 40px 36px;
+    border-radius: 2px;
+  }
+
+  .scope-card.yes {
+    background: #f0f6f0;
+    border-top: 3px solid #4a9466;
+  }
+
+  .scope-card.no {
+    background: #faf2ee;
+    border-top: 3px solid #c05838;
+  }
+
+  .scope-card h3 {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 22px;
+    font-weight: 600;
+    color: var(--navy);
+    margin-bottom: 28px;
+  }
+
+  .scope-card ul {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+  }
+
+  .scope-card li {
+    font-size: 14px;
+    line-height: 1.6;
+    color: #444;
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+  }
+
+  .scope-card.yes li::before {
+    content: '✓';
+    color: #4a9466;
+    font-weight: 700;
+    flex-shrink: 0;
+  }
+
+  .scope-card.no li::before {
+    content: '✕';
+    color: #c05838;
+    font-weight: 700;
+    flex-shrink: 0;
+  }
+
+  /* ── ABOUT ME ── */
+  .about-section {
+    padding: 100px 8%;
+    background: var(--off);
+  }
+
+  .about-grid {
+    max-width: 960px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: 300px 1fr;
+    gap: 64px;
+    align-items: start;
+  }
+
+  @media (max-width: 700px) {
+    .about-grid { grid-template-columns: 1fr; gap: 40px; }
+  }
+
+  .about-photo {
+    position: relative;
+  }
+
+  .photo-frame {
+    width: 100%;
+    aspect-ratio: 3/4;
+    background: #ddd5c8;
+    border-radius: 2px;
+    overflow: hidden;
+    position: relative;
+  }
+
+  .photo-frame img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+
+  .photo-placeholder {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    color: #a09080;
+    font-size: 13px;
+    letter-spacing: 0.1em;
+  }
+
+  .photo-placeholder svg {
+    opacity: 0.4;
+  }
+
+  .photo-accent {
+    position: absolute;
+    bottom: -12px;
+    right: -12px;
+    width: 80px;
+    height: 80px;
+    background: var(--gold);
+    opacity: 0.3;
+    border-radius: 2px;
+    z-index: -1;
+  }
+
+  .about-text .eyebrow { margin-bottom: 12px; }
+
+  .about-text h2 {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(28px, 3.5vw, 44px);
+    font-weight: 600;
+    color: var(--navy);
+    line-height: 1.15;
+    margin-bottom: 28px;
+  }
+
+  .about-text h2 em {
+    font-style: normal;
+    color: var(--gold);
+  }
+
+  .about-bio {
+    font-size: 15px;
+    line-height: 1.9;
+    color: var(--gray);
+    font-weight: 300;
+    margin-bottom: 20px;
+  }
+
+  .about-bio strong {
+    color: var(--navy);
+    font-weight: 500;
+  }
+
+  .about-meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 16px;
+    margin-top: 32px;
+  }
+
+  .meta-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 13px;
+    color: var(--gray);
+    font-weight: 300;
+  }
+
+  .meta-dot {
+    width: 6px;
+    height: 6px;
+    background: var(--gold);
+    border-radius: 50%;
+    flex-shrink: 0;
+  }
+
+
+  .contact-section {
+    background: var(--navy);
+    padding: 100px 8%;
+    text-align: center;
+  }
+
+  .contact-inner {
+    max-width: 640px;
+    margin: 0 auto;
+  }
+
+  .contact-section .eyebrow { color: var(--gold-light); }
+
+  .contact-section h2 {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(30px, 4vw, 48px);
+    font-weight: 600;
+    color: var(--white);
+    margin-bottom: 24px;
+    line-height: 1.2;
+  }
+
+  .contact-section p {
+    font-size: 15px;
+    color: rgba(250,248,244,0.65);
+    line-height: 1.9;
+    font-weight: 300;
+    margin-bottom: 48px;
+  }
+
+  .btn-gold {
+    display: inline-block;
+    padding: 18px 56px;
+    background: var(--gold);
+    color: var(--navy);
+    font-size: 13px;
+    font-weight: 500;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    text-decoration: none;
+    border-radius: 1px;
+    transition: all 0.3s;
+  }
+
+  .btn-gold:hover {
+    background: var(--gold-light);
+    transform: translateY(-3px);
+    box-shadow: 0 12px 32px rgba(212,137,58,0.28);
+  }
+
+  /* ── READ MORE ── */
+  .read-more-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    margin-top: 20px;
+    font-size: 12px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--gold);
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 0;
+    font-family: 'DM Sans', sans-serif;
+    transition: gap 0.2s;
+  }
+  .read-more-btn:hover { gap: 10px; }
+  .read-more-btn .arrow { transition: transform 0.3s; }
+  .read-more-btn.open .arrow { transform: rotate(90deg); }
+
+  .case-detail {
+    display: none;
+    margin-top: 24px;
+    padding-top: 24px;
+    border-top: 1px solid rgba(212,137,58,0.2);
+  }
+  .case-detail.open { display: block; }
+
+  .case-row {
+    display: grid;
+    grid-template-columns: 80px 1fr;
+    gap: 8px 16px;
+    margin-bottom: 16px;
+    font-size: 13px;
+    line-height: 1.7;
+  }
+  .case-row:last-child { margin-bottom: 0; }
+
+  .case-label {
+    font-size: 10px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--gold);
+    padding-top: 2px;
+    font-weight: 500;
+  }
+
+  .case-value {
+    color: var(--gray);
+    font-weight: 300;
+  }
+
+  .case-result {
+    color: var(--navy);
+    font-weight: 500;
+  }
+
+
+  .fi {
+    opacity: 0;
+    transform: translateY(28px);
+    transition: opacity 0.8s ease, transform 0.8s ease;
+  }
+  .fi.on { opacity: 1; transform: none; }
+  .fi-d1 { transition-delay: 0.1s; }
+  .fi-d2 { transition-delay: 0.2s; }
+  .fi-d3 { transition-delay: 0.3s; }
+  .fi-d4 { transition-delay: 0.4s; }
+
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(24px); }
+    to   { opacity: 1; transform: none; }
+  }
+
+  /* ── LANG HIDE ── */
+  .ja { display: none; }
+  body.lang-ja .en { display: none; }
+  body.lang-ja .ja { display: revert; }
+</style>
+</head>
+<body class="lang-en">
+
+<!-- LANG BAR -->
+<div class="lang-bar">
+  <button class="lang-btn active" onclick="setLang('en')" id="btn-en">EN</button>
+  <button class="lang-btn" onclick="setLang('ja')" id="btn-ja">日本語</button>
+</div>
+
+<!-- ═══ HERO ═══ -->
+<section class="hero">
+  <p class="hero-eyebrow en">Business Operations & Cross-Functional Alignment</p>
+  <p class="hero-eyebrow ja">ビジネスオペレーション & 組織横断的連携</p>
+
+  <h1 class="en">
+    Connecting People,<br>
+    <em>Systems,</em> and<br>
+    Outcomes.
+  </h1>
+  <h1 class="ja">
+    人と仕組みをつなぎ、<br>
+    <em>成果</em>を生み出す。
+  </h1>
+
+  <p class="hero-desc en">
+    I bridge gaps between teams, build operating systems that scale,
+    and turn market insight into revenue. Based between San Diego and Japan.
+  </p>
+  <p class="hero-desc ja">
+    チーム間のズレを解消し、スケールする仕組みを構築し、<br>
+    市場の洞察を売上に変える。サンディエゴと日本を拠点に活動。
+  </p>
+
+  <div class="hero-stats">
+    <div class="stat">
+      <span class="stat-num">20–30%</span>
+      <span class="stat-label en">YoY Revenue Growth</span>
+      <span class="stat-label ja">年間売上成長率</span>
+    </div>
+    <div class="stat">
+      <span class="stat-num">1/10</span>
+      <span class="stat-label en">Ops Time Reduction</span>
+      <span class="stat-label ja">業務時間削減率</span>
+    </div>
+    <div class="stat">
+      <span class="stat-num">5×</span>
+      <span class="stat-label en">Membership Growth</span>
+      <span class="stat-label ja">会員数成長率</span>
+    </div>
+    <div class="stat">
+      <span class="stat-num">30+</span>
+      <span class="stat-label en">Clients (Ads)</span>
+      <span class="stat-label ja">広告運用クライアント数</span>
+    </div>
+  </div>
+
+  <div class="scroll-hint">
+    <div class="scroll-line"></div>
+    <span class="en">scroll</span>
+    <span class="ja">スクロール</span>
+  </div>
+</section>
+
+<!-- ═══ EXPERTISE ═══ -->
+<section class="section">
+  <div class="section-inner">
+    <span class="eyebrow fi en">Areas of Expertise</span>
+    <span class="eyebrow fi ja">専門領域</span>
+    <h2 class="section-title fi en">What I Do</h2>
+    <h2 class="section-title fi ja">できること</h2>
+
+    <div class="expertise-grid">
+
+      <!-- 1 -->
+      <div class="exp-card fi fi-d1">
+        <span class="exp-num">01</span>
+        <h3 class="exp-title en">Operations & Process Design</h3>
+        <h3 class="exp-title ja">オペレーション改善</h3>
+        <p class="exp-body en">
+          Most inefficiencies aren't complex — they're misalignments.
+          I identify friction between teams (Sales × Finance, Sales × Marketing, Sales × Dev),
+          document the gaps, and build shared processes that stick.
+          Result: 5–10 hrs/month of manual work reduced to 1/10.
+        </p>
+        <p class="exp-body ja">
+          非効率の多くは複雑な問題ではなく、単純な「ボタンの掛け違い」です。
+          営業×経理、営業×マーケ、営業×開発など部門間の摩擦を特定し、
+          ドキュメント化と標準化で解消。毎月5〜10時間かかっていた作業を1/10に削減。
+        </p>
+        <div class="exp-tags">
+          <span class="tag">Process Mapping</span>
+          <span class="tag">Documentation</span>
+          <span class="tag">Cross-dept Alignment</span>
+        </div>
+        <button class="read-more-btn" onclick="toggleCase(this)"><span class="en">Case Study</span><span class="ja">事例を見る</span> <span class="arrow">›</span></button>
+        <div class="case-detail en">
+          <div class="case-row"><span class="case-label">Challenge</span><span class="case-value">Email-based communication caused information gaps and repeated back-and-forth between sales and support.</span></div>
+          <div class="case-row"><span class="case-label">Action</span><span class="case-value">Templated intake forms for required information. Standardized communication formats across teams.</span></div>
+          <div class="case-row"><span class="case-label">Result</span><span class="case-result">Saved 30+ min per project. Reduced burden on both sides. Faster response times overall.</span></div>
+        </div>
+        <div class="case-detail ja">
+          <div class="case-row"><span class="case-label">課題</span><span class="case-value">メールベースのやり取りで情報の抜け漏れや確認の往復が多く非効率な状態。</span></div>
+          <div class="case-row"><span class="case-label">施策</span><span class="case-value">必要情報のヒアリング項目をテンプレート化。コミュニケーションのフォーマットを統一。</span></div>
+          <div class="case-row"><span class="case-label">結果</span><span class="case-result">1案件あたり30分以上の工数削減。営業・サポート双方の負担軽減。対応スピード向上。</span></div>
+        </div>
+      </div>
+
+      <!-- 2 -->
+      <div class="exp-card fi fi-d2">
+        <span class="exp-num">02</span>
+        <h3 class="exp-title en">Business Development</h3>
+        <h3 class="exp-title ja">事業開発</h3>
+        <p class="exp-body en">
+          I turn unmet client needs into scalable service lines.
+          Built Social Media Management (8 clients yr 1), Google Ads (30 clients in 3 yrs),
+          and packaged web production to cut estimation time by 75% while streamlining
+          the entire sales-to-delivery pipeline.
+        </p>
+        <p class="exp-body ja">
+          顧客ニーズをサービス化。SNS運用（初年度8社）、Google広告運用（3年で30社）を立ち上げ。
+          個別見積もりだったWeb制作をパッケージ化し、見積もり時間を1/4に短縮。
+          営業からPM・開発まで一貫したフローを確立。
+        </p>
+        <div class="exp-tags">
+          <span class="tag">Service Design</span>
+          <span class="tag">Biz Dev</span>
+          <span class="tag">Packaging</span>
+        </div>
+        <button class="read-more-btn" onclick="toggleCase(this)"><span class="en">Case Study</span><span class="ja">事例を見る</span> <span class="arrow">›</span></button>
+        <div class="case-detail en">
+          <div class="case-row"><span class="case-label">Challenge</span><span class="case-value">Client demand for social media, ads, and web services existed but no internal service structure to fulfill it.</span></div>
+          <div class="case-row"><span class="case-label">Action</span><span class="case-value">Launched Social Media Management, Google Ads service, and packaged web production with clear pricing and workflows.</span></div>
+          <div class="case-row"><span class="case-label">Result</span><span class="case-result">SNS: 8 clients yr 1. Google Ads: 30 clients in 3 yrs. Estimation time cut by 75%. Smoother sales-to-delivery flow.</span></div>
+        </div>
+        <div class="case-detail ja">
+          <div class="case-row"><span class="case-label">課題</span><span class="case-value">顧客からSNS・広告・Web制作のニーズはあったが、社内でサービス化されていなかった。</span></div>
+          <div class="case-row"><span class="case-label">施策</span><span class="case-value">SNS運用・Google広告・Web制作をパッケージ化。明確な料金体系とフローを整備。</span></div>
+          <div class="case-row"><span class="case-label">結果</span><span class="case-result">SNS運用初年度8社。Google広告3年で30社。見積もり時間1/4に短縮。営業〜納品まで一貫化。</span></div>
+        </div>
+      </div>
+
+      <!-- 3 -->
+      <div class="exp-card fi fi-d3">
+        <span class="exp-num">03</span>
+        <h3 class="exp-title en">Sales & Marketing</h3>
+        <h3 class="exp-title ja">営業・マーケティング</h3>
+        <p class="exp-body en">
+          Built a referral-driven pipeline through networking events and seminars in San Diego —
+          so effective that cold outreach became unnecessary.
+          Grew team revenue 20–30% YoY while headcount stayed flat.
+          Transferred the playbook to HQ with training and manuals.
+        </p>
+        <p class="exp-body ja">
+          サンディエゴでの交流会・セミナー戦略でリファーラルを増やし、
+          コールドセールス不要の案件獲得フローを構築。
+          チーム人数変えずに毎年20〜30%の売上成長を維持。
+          ノウハウをマニュアル化し本社にも展開・実績化。
+        </p>
+        <div class="exp-tags">
+          <span class="tag">Referral Marketing</span>
+          <span class="tag">Seminar Strategy</span>
+          <span class="tag">Pipeline</span>
+        </div>
+        <button class="read-more-btn" onclick="toggleCase(this)"><span class="en">Case Study</span><span class="ja">事例を見る</span> <span class="arrow">›</span></button>
+        <div class="case-detail en">
+          <div class="case-row"><span class="case-label">Challenge</span><span class="case-value">Cold sales-heavy team with no time for outreach. Difficult to build lasting relationships.</span></div>
+          <div class="case-row"><span class="case-label">Action</span><span class="case-value">Designed a funnel: networking events → seminars → referrals. Lowered participation barriers. Built trust through photos and reports.</span></div>
+          <div class="case-row"><span class="case-label">Result</span><span class="case-result">Cold outreach became unnecessary. 20–30% YoY revenue growth. Playbook transferred to HQ with training.</span></div>
+        </div>
+        <div class="case-detail ja">
+          <div class="case-row"><span class="case-label">課題</span><span class="case-value">コールドセールス中心で非効率。継続的な関係構築やビジネスにつながりにくかった。</span></div>
+          <div class="case-row"><span class="case-label">施策</span><span class="case-value">交流会→セミナー→成約の導線を設計。参加ハードルを下げ、写真・レポートで信頼形成。参加者同士がつながる仕組みを構築。</span></div>
+          <div class="case-row"><span class="case-label">結果</span><span class="case-result">コールドセールス不要の体制へ。毎年前年度比20〜30%成長を継続。本社へノウハウ展開・実績化。</span></div>
+        </div>
+      </div>
+
+      <!-- 4 -->
+      <div class="exp-card fi fi-d4">
+        <span class="exp-num">04</span>
+        <h3 class="exp-title en">Community Building</h3>
+        <h3 class="exp-title ja">コミュニティ形成</h3>
+        <p class="exp-body en">
+          Co-organized 20+ networking events across SD, OC & LA over 3 years —
+          consistently sold out at 20 attendees. As VP of SDJBA (2025–),
+          helped achieve 5× membership growth (30-year record) through DX,
+          website relaunch, and member management system.
+        </p>
+        <p class="exp-body ja">
+          3年間でSD・OC・LAにて20回以上の交流会を共同主催（毎回20名満員）。
+          2025年よりSDJBA副会長に就任。DX推進・ウェブサイト刷新・会員管理システム導入により、
+          30年来最高の5倍の年間入会数を記録。
+        </p>
+        <div class="exp-tags">
+          <span class="tag">Event Strategy</span>
+          <span class="tag">DX / Systems</span>
+          <span class="tag">Community Ops</span>
+        </div>
+        <button class="read-more-btn" onclick="toggleCase(this)"><span class="en">Case Study</span><span class="ja">事例を見る</span> <span class="arrow">›</span></button>
+        <div class="case-detail en">
+          <div class="case-row"><span class="case-label">Challenge</span><span class="case-value">Cold sales alone couldn't build lasting relationships or lead to sustained business growth.</span></div>
+          <div class="case-row"><span class="case-label">Action</span><span class="case-value">Co-organized 18 networking events + 10 seminars across SD, OC & LA. Designed formats that connect attendees. As VP of SDJBA, led DX, website relaunch, and member system overhaul.</span></div>
+          <div class="case-row"><span class="case-label">Result</span><span class="case-result">Seminars: 10 events. Meetups: 18 events, 20+ attendees each (half new, half repeat). Ongoing collabs & projects. SDJBA: 5× membership growth — 30-year record.</span></div>
+        </div>
+        <div class="case-detail ja">
+          <div class="case-row"><span class="case-label">課題</span><span class="case-value">コールドセールスだけでは継続的な関係構築やビジネスにつながらない。</span></div>
+          <div class="case-row"><span class="case-label">施策</span><span class="case-value">SD・OC・LAで交流会18回・セミナー10回を企画・運営。参加者同士がつながる設計を研究。SDJBAではDX推進・ウェブサイト刷新・会員管理システムを導入。</span></div>
+          <div class="case-row"><span class="case-label">結果</span><span class="case-result">交流会：毎回20名以上（新規・リピーター半数）。継続的なコラボ・案件創出。SDJBA：30年来最高の5倍の年間入会数を記録。</span></div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ═══ APPROACH ═══ -->
+<section class="approach-section">
+  <div class="section-inner">
+    <span class="eyebrow fi en">Philosophy</span>
+    <span class="eyebrow fi ja">考え方</span>
+    <h2 class="section-title fi en">My Approach</h2>
+    <h2 class="section-title fi ja">アプローチ</h2>
+
+    <div class="approach-grid">
+      <div>
+        <p class="approach-text fi en">
+          Most problems aren't about <strong>lack of ability</strong> —
+          they stem from <strong>miscommunication or structural misalignment</strong>.
+          I step back, observe the whole, and find the small lever that moves the big flow.
+        </p>
+        <p class="approach-text fi ja">
+          問題の多くは<strong>能力不足</strong>ではなく、<strong>コミュニケーションや構造のズレ</strong>から生まれます。
+          一歩引いて全体を観察し、大きな流れを変える小さなレバーを見つけます。
+        </p>
+        <ul class="pillars fi">
+          <li>
+            <span class="pillar-num">01</span>
+            <span class="pillar-text en">Challenge existing assumptions</span>
+            <span class="pillar-text ja">既存のやり方を前提にしない</span>
+          </li>
+          <li>
+            <span class="pillar-num">02</span>
+            <span class="pillar-text en">Step back and observe the whole system</span>
+            <span class="pillar-text ja">一歩引いて全体を観察する</span>
+          </li>
+          <li>
+            <span class="pillar-num">03</span>
+            <span class="pillar-text en">Identify the invisible misalignment</span>
+            <span class="pillar-text ja">見えにくい違和感を特定する</span>
+          </li>
+          <li>
+            <span class="pillar-num">04</span>
+            <span class="pillar-text en">Small changes, big momentum shifts</span>
+            <span class="pillar-text ja">小さな改善で大きな流れを変える</span>
+          </li>
+        </ul>
+      </div>
+
+      <div class="strength-panel fi">
+        <h3 class="en">Core Strength</h3>
+        <h3 class="ja">強み</h3>
+        <p class="en">
+          I'm at my best when different perspectives need to be integrated into one workable direction.
+          I understand what each stakeholder actually needs — not just what they say —
+          and translate that into something realistic, functional, and forward-moving.
+        </p>
+        <p class="ja">
+          異なる立場や意見を整理し、全体として機能する形に落とし込むことが得意です。
+          関係者それぞれの意図を言葉の裏まで汲み取り、現実的で動ける形にまとめ、前に進めます。
+        </p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ SCOPE ═══ -->
+<section class="section">
+  <div class="section-inner">
+    <span class="eyebrow fi en">Scope of Work</span>
+    <span class="eyebrow fi ja">対応範囲</span>
+    <h2 class="section-title fi en">What Works & What Doesn't</h2>
+    <h2 class="section-title fi ja">できること・できないこと</h2>
+
+    <div class="scope-grid fi">
+      <div class="scope-card yes">
+        <h3 class="en">✅ I Can Help With</h3>
+        <h3 class="ja">✅ できること</h3>
+        <ul>
+          <li><span class="en">Operations improvement & systematization</span><span class="ja">オペレーション改善・仕組み化</span></li>
+          <li><span class="en">Business development & service design</span><span class="ja">事業開発・サービス設計</span></li>
+          <li><span class="en">Sales strategy & marketing funnel</span><span class="ja">営業・マーケティング・導線構築</span></li>
+          <li><span class="en">Community design & management</span><span class="ja">コミュニティ設計・運営</span></li>
+          <li><span class="en">Cross-functional alignment</span><span class="ja">部門間・関係者間の連携整備</span></li>
+        </ul>
+      </div>
+      <div class="scope-card no">
+        <h3 class="en">🚫 Not the Right Fit</h3>
+        <h3 class="ja">🚫 できないこと</h3>
+        <ul>
+          <li><span class="en">Task execution only (no strategic context)</span><span class="ja">単純な作業代行のみの業務</span></li>
+          <li><span class="en">Short-term tactics without structural change</span><span class="ja">短期的な施策のみでの改善</span></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ ABOUT ═══ -->
+<section class="about-section">
+  <div class="about-grid">
+
+    <div class="about-photo fi">
+      <div class="photo-frame">
+        <!-- 写真をここに入れる: <img src="your-photo.jpg" alt="Your Name"> -->
+        <div class="photo-placeholder">
+          <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2">
+            <circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/>
+          </svg>
+          <span class="en">Your Photo Here</span>
+          <span class="ja">写真をここに</span>
+        </div>
+      </div>
+      <div class="photo-accent"></div>
+    </div>
+
+    <div class="about-text">
+      <span class="eyebrow fi en">About Me</span>
+      <span class="eyebrow fi ja">プロフィール</span>
+
+      <h2 class="fi en">Bridging People,<br>Teams & <em>Ideas.</em></h2>
+      <h2 class="fi ja">人と組織をつなぎ、<br><em>前に進める</em>人間です。</h2>
+
+      <p class="about-bio fi en">
+        Based between <strong>San Diego and Japan</strong>, I specialize in making organizations work better —
+        not by adding complexity, but by finding the simple misalignments that hold things back.
+      </p>
+      <p class="about-bio fi ja">
+        <strong>サンディエゴと日本</strong>を拠点に活動。複雑な仕組みを増やすのではなく、
+        組織の中にある「小さなズレ」を見つけて解消することで、全体を前に動かすことを得意としています。
+      </p>
+
+      <p class="about-bio fi en">
+        My background spans <strong>operations, business development, sales, marketing, and community building</strong> —
+        which means I can see across silos and connect what others miss.
+      </p>
+      <p class="about-bio fi ja">
+        オペレーション・事業開発・営業・マーケティング・コミュニティ運営と、
+        <strong>幅広い領域での実務経験</strong>があるからこそ、部門を横断して全体を見渡せます。
+      </p>
+
+      <div class="about-meta fi">
+        <span class="meta-item"><span class="meta-dot"></span><span class="en">San Diego, CA</span><span class="ja">サンディエゴ / 日本</span></span>
+        <span class="meta-item"><span class="meta-dot"></span><span class="en">Bilingual EN / JP</span><span class="ja">英日バイリンガル</span></span>
+        <span class="meta-item"><span class="meta-dot"></span><span class="en">Open to new opportunities</span><span class="ja">新規相談・転職活動中</span></span>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ═══ CONTACT ═══ -->
+<section class="contact-section">
+  <div class="contact-inner">
+    <span class="eyebrow fi en">Get in Touch</span>
+    <span class="eyebrow fi ja">お問い合わせ</span>
+    <h2 class="fi en">Let's Talk.</h2>
+    <h2 class="fi ja">まずは話しましょう。</h2>
+    <p class="fi en">
+      You don't need to have everything figured out.<br>
+      Let's start from your current situation and work through it together.
+    </p>
+    <p class="fi ja">
+      ご相談内容が整理されていなくても問題ありません。<br>
+      現状の課題や違和感から、一緒に整理させていただきます。
+    </p>
+    <a href="mailto:" class="btn-gold fi en">Get in Touch</a>
+    <a href="mailto:" class="btn-gold fi ja">お問い合わせはこちら</a>
+  </div>
+</section>
+
+<script>
+  // Case study toggle — only show detail matching current lang
+  function toggleCase(btn) {
+    const card = btn.closest('.exp-card');
+    const lang = document.body.className.replace('lang-', '');
+    const detail = card.querySelector('.case-detail.' + lang);
+    const allDetails = card.querySelectorAll('.case-detail');
+    const isOpen = btn.classList.contains('open');
+    allDetails.forEach(d => d.classList.remove('open'));
+    if (!isOpen && detail) detail.classList.add('open');
+    btn.classList.toggle('open', !isOpen);
+  }
+
+  // Lang toggle
+  function setLang(lang) {
+    document.body.className = 'lang-' + lang;
+    document.getElementById('btn-en').classList.toggle('active', lang === 'en');
+    document.getElementById('btn-ja').classList.toggle('active', lang === 'ja');
+    // Close all open case details on lang switch
+    document.querySelectorAll('.case-detail.open').forEach(d => d.classList.remove('open'));
+    document.querySelectorAll('.read-more-btn.open').forEach(b => b.classList.remove('open'));
+  }
+
+  // Scroll fade-in
+  const obs = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) e.target.classList.add('on');
+    });
+  }, { threshold: 0.12 });
+
+  document.querySelectorAll('.fi').forEach(el => obs.observe(el));
+</script>
+</body>
+</html>
